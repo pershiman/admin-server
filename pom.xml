@@ -55,6 +55,44 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.basedir}/docker/</outputDirectory>
+                </configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.20.0</version>
+				<configuration>
+					<!--<dockerHost>tcp://REMOTE_IP:2375</dockerHost> -->
+					<images>
+						<image>
+							<name>pershi/admin-server</name>
+							<alias>admin-dockerimage</alias>
+							<build>
+								<dockerFileDir>${project.basedir}/docker/</dockerFileDir>
+								<tags><tag>
+									${project.version}
+								</tag>
+									<tag>
+										latest
+									</tag></tags>
+							</build>
+							<run>
+								<ports>
+									<port>8093:8093</port>
+								</ports>
+							</run>
+						</image>
+					</images>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
